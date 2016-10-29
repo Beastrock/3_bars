@@ -13,51 +13,52 @@ def load_data(filepath):
 
 def get_smallest_bar(bars):
     smallest_bar = min(bars, key=lambda bars: bars["Cells"]["SeatsCount"])
-    # TODO:Сделать хороший вывод с помощью format
-    return smallest_bar["Number"]
+    return smallest_bar
 
 
 def get_biggest_bar(bars):
     biggest_bar = max(bars, key=lambda bars: bars["Cells"]["SeatsCount"])
-    return biggest_bar["Number"]
+    return biggest_bar
 
 
-def calculate_closest_bar(bars):
-    # user_longitude, user_latitude = raw_input().split()
-    user_longitude = 55.755797
-    user_latitude = 37.408770
+def calculate_closest_bar(bars, user_latitude, user_longitude):
     def calculate_distance(bars):
         EARTH_RADIUS = 6371e3  # metres
         bar_coordinates = bars["Cells"]["geoData"].get('coordinates')
-        bar_longitude, bar_latitude = bar_coordinates[0],bar_coordinates[1]
-        fi1 = radians(user_longitude) # что это за угол
-        fi2 = radians(bar_longitude)  #  а это и так далее TODO: расставить коменты
+        bar_latitude = bar_coordinates[0]
+        bar_longitude = bar_coordinates[1]
+        fi1 = radians(user_longitude)
+        fi2 = radians(bar_longitude)
         delta_fi = radians(bar_latitude - user_latitude)
         delta_lambda = radians(bar_longitude - user_longitude)
+        # calculate a - the square of half the chord length between the points.
         a = (asin(delta_fi / 2) ** 2) * asin(delta_fi / 2) \
             + acos(fi1) * acos(fi2) * (asin(delta_lambda / 2) ** 2)
+        # calculate c - the angular distance in radians
         c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        # calculate d - the desired length between bar and user
         d = int(EARTH_RADIUS * c)
         return d
     nearest_bar = min(bars, key=calculate_distance)
+    distance = {"Distance": calculate_distance(nearest_bar)/1000}
+    nearest_bar.update(distance)
     return nearest_bar
 
 
-def print_results():
-    return
+def print_results(smallest_bar, biggest_bar, nearest_bar):
+    print("Самый маленький бар это \"{b[Name]}\". В нём {b[SeatsCount]} посадочных мест.".
+          format(b=smallest_bar["Cells"]))
+    print("Самый большой бар это \"{b[Name]}\". В нём {b[SeatsCount]} посадочных мест.".format(
+        b=biggest_bar["Cells"]))
+    print("Самый ближайший к вам бар, \"{}\", на расстоянии {} км от Вас. \nВы можете найти его по адресу: {}".format(
+        nearest_bar["Cells"]["Name"], nearest_bar["Distance"], nearest_bar["Cells"]["Address"]))
 
 
 if __name__ == '__main__':
     json_filepath = "bars.json"
     bars = load_data(json_filepath)
-    # print(get_smallest_bar(bars))
-    # print(get_biggest_bar(bars))
-    # print(input())
-    # print (bars[1]["Number"])
-    # print (bars[0]["Cells"])
-    # print(bars[0]["Cells"]["SeatsCount"])
-    nearest_bar = calculate_closest_bar(bars)
-    print (nearest_bar)
-    print (nearest_bar["Cells"]["geoData"]["coordinates"][0])
-    print (nearest_bar["Cells"].get("AdmArea"))
-    print(nearest_bar["Cells"].get("Name"))
+    user_longitude, user_latitude = input().split()
+    the_biggest = get_biggest_bar(bars)
+    the_smallest = get_smallest_bar(bars)
+    nearest_bar = calculate_closest_bar(bars, user_latitude, user_longitude)
+    print_results(the_smallest, the_biggest, nearest_bar)
