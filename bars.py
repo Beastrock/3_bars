@@ -23,7 +23,7 @@ def get_biggest_bar(bars):
 
 def calculate_closest_bar(bars, user_latitude, user_longitude):
     def calculate_distance(bars):
-        EARTH_RADIUS = 6371e3  # metres
+        EARTH_RADIUS = 6371e3
         bar_coordinates = bars["Cells"]["geoData"].get('coordinates')
         bar_latitude = bar_coordinates[0]
         bar_longitude = bar_coordinates[1]
@@ -39,19 +39,22 @@ def calculate_closest_bar(bars, user_latitude, user_longitude):
         # calculate d - the desired length between bar and user
         d = int(EARTH_RADIUS * c)
         return d
+
     nearest_bar = min(bars, key=calculate_distance)
-    distance = {"Distance": calculate_distance(nearest_bar)/1000}
+    distance = {"Distance": calculate_distance(nearest_bar) / 1000}
     nearest_bar.update(distance)
     return nearest_bar
 
 
 def print_results(smallest_bar, biggest_bar, nearest_bar):
-    print("Самый маленький бар это \"{b[Name]}\". В нём {b[SeatsCount]} посадочных мест.".
-          format(b=smallest_bar["Cells"]))
-    print("Самый большой бар это \"{b[Name]}\". В нём {b[SeatsCount]} посадочных мест.".format(
-        b=biggest_bar["Cells"]))
-    print("Самый ближайший к вам бар, \"{}\", на расстоянии {} км от Вас. \nВы можете найти его по адресу: {}".format(
-        nearest_bar["Cells"]["Name"], nearest_bar["Distance"], nearest_bar["Cells"]["Address"]))
+    print("The smallest bar \"{b[Name]}\" +"
+          "There are {b[SeatsCount]} seats.".format(b=smallest_bar["Cells"]))
+    print("The biggest bar \"{b[Name]}\"."
+          " There are {b[SeatsCount]} seats.".format(b=biggest_bar["Cells"]))
+    print("The nearest bar, \"{}\", is by {} km. "
+          "Address to find it: {}".format(nearest_bar["Cells"]["Name"],
+                                          nearest_bar["Distance"],
+                                          nearest_bar["Cells"]["Address"]))
 
 
 if __name__ == '__main__':
@@ -60,5 +63,7 @@ if __name__ == '__main__':
     user_longitude, user_latitude = input().split()
     the_biggest = get_biggest_bar(bars)
     the_smallest = get_smallest_bar(bars)
+    user_longitude = 55.755797
+    user_latitude = 37.408770
     nearest_bar = calculate_closest_bar(bars, user_latitude, user_longitude)
     print_results(the_smallest, the_biggest, nearest_bar)
