@@ -4,6 +4,7 @@ It calculates three things:
 * the biggest bar, using a quantity of seats count  
 * the smallest bar, using the same count  
 * the nearest bar from  location inputted by user  
+
 ## launching the script  
 You can run the script using following command: python bars.py `<path_to_json_file>`  
 ## formula for calculating distance  
