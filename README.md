@@ -7,4 +7,5 @@ It calculates three things:
 ## launching the script  ##  
 You can run the script using following command: python bars.py `<path_to_json_file>`  
 ## Formula for calculating distance ##  
-The information about formula and calculatins you can find [there(rus)](http://gis-lab.info/qa/great-circles.html) and [there(eng)](https://en.wikipedia.org/wiki/Haversine_formula)
+The information about formula and calculatins you can find [there(rus)](http://gis-lab.info/qa/great-circles.html) and [there(eng)](https://en.wikipedia.org/wiki/Haversine_formula)  
+
