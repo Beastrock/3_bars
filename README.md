@@ -3,8 +3,8 @@ This script works with [bars json data base](http://data.mos.ru/opendata/7710881
 It calculates three things:  
 * the biggest bar, using a quantity of seats count  
 * the smallest bar, using the same count  
-* the nearest bar from  location inputted by user  
+* the nearest bar from  location inputted by user 
 ## launching the script  
 You can run the script using following command: python bars.py `<path_to_json_file>`
-## Formula for calculating distance
+## Formula for calculating distance  
 The information about formula and calculatins you can find [there(rus)](http://gis-lab.info/qa/great-circles.html) and [there(eng)](https://en.wikipedia.org/wiki/Haversine_formula)
