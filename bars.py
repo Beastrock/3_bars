@@ -61,7 +61,7 @@ def print_results(smallest_bar, biggest_bar, nearest_bar):
 
 
 if __name__ == '__main__':
-    json_filepath = "bars.json"
+    json_filepath = sys.argv[1]
     bars = load_data(json_filepath)
     the_biggest = get_biggest_bar(bars)
     the_smallest = get_smallest_bar(bars)
