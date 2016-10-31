@@ -7,7 +7,7 @@ It calculates three things:
   
 Quantity of seats is used to get the first two tasks of the script. 
 
-## launching the script  
+## launching  
 You can run the script using following command: python bars.py `<path_to_json_file>`  
 ## formula for calculating distance between two GPS coordinates
 The third task is achieved with a haversine formula. The information about formula and calculations you can find [there(rus)](http://gis-lab.info/qa/great-circles.html) and [there(eng)](https://en.wikipedia.org/wiki/Haversine_formula).
